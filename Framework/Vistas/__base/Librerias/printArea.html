@@ -1,0 +1,17 @@
+<script src="{{ baseMedia() }}/Generales/plugins/PrintArea/jquery.PrintArea.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".botonImprimir").click(function ()
+		{
+			$("#areaImpresion").addClass('impresionVista').removeClass('vistaPrevia').printArea(
+			{
+				mode       : "popup",
+				standard   : "html5",
+				afterPrint : function()
+				{
+					$('#areaImpresion').removeClass('impresionVista').addClass('vistaPrevia');
+				},
+			});
+		})
+	});
+</script>

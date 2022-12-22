@@ -1,0 +1,24 @@
+{% macro bloques() %}    
+    {% for bloque in menuBloques() %}        
+		<div class="col-lg-4 col-xs-12 col-sm-6 filtro-sam-modulo">
+			<a href="{{ bloque.uri }}">
+				<div class="modulosWidget">
+					<div class="TextoWidget">
+						<center>
+							<div>
+								<span class="texto-filtro">{{ bloque.alias }}</span><br>
+							</div>
+						</center>
+					</div>
+					<div class="iconWidget {{ bloque.color }}">
+						<div class="contIcon">
+							<i class="{{ bloque.icono }}"></i>
+						</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	{% else %}
+		<h2>La seccion no cuenta con modulos.</h2>
+    {% endfor %}
+{% endmacro %}

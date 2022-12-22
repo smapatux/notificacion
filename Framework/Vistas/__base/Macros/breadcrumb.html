@@ -1,0 +1,15 @@
+{% macro breadcrumb( menu, nivel, datos ) %}
+	<ol class="breadcrumb">
+	<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+
+    {% for elemento in menu %}
+		<li>
+		{% if loop.index == nivel %}
+			<a href="{{ datos.href }}"><i class="{{ datos.icono }}"></i> {{ datos.texto }}</a>
+		{% else %}
+			<a href="{{ elemento.uri }}"><i class="{{ elemento.icono }}"></i> {{ elemento.alias }}</a>
+		{% endif %}
+		</li>
+    {% endfor %}
+	</ol>
+{% endmacro %}

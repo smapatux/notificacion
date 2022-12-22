@@ -1,0 +1,19 @@
+<div class="modal" id="{{ id | default('id-modal') }}" tabindex="-1" role="dialog">
+	<div class="modal-dialog {{ lg ? 'modal-lg' : '' }}" role="document">
+		<div class="modal-content">
+			<div class="modal-header {{ bgColor | default('') }} ">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				{% if headerTitle %}
+					<h5 class="modal-title">{{ headerTitle | raw }}</h5>
+				{% else %}
+					{{ header | raw }}
+				{% endif %}
+			</div>
+			
+			<div class="modal-body">{{ body | raw }}</div>
+
+			<div class="modal-footer">{{ footer | raw }}</div>
+		</div>
+	</div>
+</div>
+	

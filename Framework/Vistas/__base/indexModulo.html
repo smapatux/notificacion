@@ -1,0 +1,43 @@
+{% extends __contenido ? "/__base/contenido-minimo.html" : "/__base/base.html" %}
+
+{% block extraScriptTop %}
+
+{% endblock %}
+
+{% block contenido %}
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="row acciones-modulos">
+			<div class="col-xs-12">
+				<div class="box">
+					{% include "/__base/filtroModulos.html" %}
+					<!-- /.box-header -->
+					<div class="box-body">
+						{% import "__base/Macros/menu-secciones.html" as menus %}
+						{{ menus.bloques( UI.menu ) }}
+					</div>
+					<!-- /.box-body -->
+					<div class="overlay loading hide ">
+						<i class="fa fa-refresh fa-spin"></i>
+					</div>
+				</div>
+				<!-- /.box -->					
+			</div>
+			<!-- /.col -->
+
+		</div>
+		<!-- /.row -->
+
+	</section>
+	<!-- /.content -->
+{% endblock %}
+
+
+{% block extraScript %}	
+	<!-- Controlador -->
+	<script src="{{ baseMedia() }}/Configuracion/Modulos/modulos.js"></script>
+	
+{% endblock %}
+
+

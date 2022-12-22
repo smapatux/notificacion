@@ -1,0 +1,51 @@
+{% extends __contenido ? "/__base/contenido-minimo.html" : "/__base/base.html" %}
+
+{% block titulo_contenido %}
+			<h1>
+				Error 500
+				<small>Error interno.</small>
+			</h1>
+{% endblock %}
+
+{% block breadcrumb %}
+			<ol class="breadcrumb">
+				<li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active">500 error</li>
+			</ol>
+{% endblock %}
+
+{% block contenido %}
+	<!-- Main content -->
+	<section class="content">
+		<div class="error-page">
+			<img src="/public/Generales/img/500.png" alt="500" class="img-responsive img-rounded center-block" width="50%" >
+
+			
+			<!-- /.error-content -->
+		</div>
+		<!-- /.error-page -->
+		<div class="col-md-12">
+			<br>
+			<div class="callout callout-danger">
+				{% if excepcion %}
+					<dl class="dl-horizontal">
+						{% for k, ex in excepcion  %}
+							<dt>{{ k }}</dt>
+							<dd>{{ ex | nl2br }}</dd>
+						{% endfor %}
+					</dl>
+				{% else %}
+					<p>
+						{{ mensaje ? mensaje : "El error a sido registrado en el sistema, reporte al administrador para repararlo lo antes posible." }}
+					</p>
+				{% endif %}
+
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+
+
+	</section>
+	<!-- /.content -->
+{% endblock %}

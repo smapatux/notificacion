@@ -1,0 +1,48 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+		<!-- sidebar menu: : style can be found in sidebar.less -->
+		<ul class="sidebar-menu" id="conteo_url">
+
+			{% for opc in UI.menu %}			
+				<li class="treeview {{ uriActivo( 1, opc.detalles.uri ) }}">
+					<a href="{{ opc.detalles.uri }}">
+						<i class="{{ opc.detalles.icono }}"></i> <span>{{ opc.detalles.alias }}</span>
+						{% if opc.subMenu %}
+							<i class="fa fa-angle-right pull-right"></i>
+						{% endif %}
+					</a>
+
+					{% if opc.subMenu %}
+					<ul class="treeview-menu">
+					{% for sMenu in opc.subMenu %}
+						<li class="{{ sMenu.subMenu ? 'treeview' : '' }} {{ uriActivo( 2, sMenu.detalles.uri ) }}">
+							<a href="{{ sMenu.detalles.uri }}"><i class="{{ sMenu.detalles.icono }}"></i> {{ sMenu.detalles.alias }}
+								{% if sMenu.subMenu %}
+									<i class="fa fa-angle-right pull-right"></i>
+								{% endif %}
+							</a>
+							{% if sMenu.subMenu %}
+							<ul class="treeview-menu">							
+							{% for sMenu2 in sMenu.subMenu %}
+								<li class="{{ uriActivo( 3, sMenu2.detalles.uri ) }}">
+									<a href="{{ sMenu2.detalles.uri }}"><i class="{{ sMenu2.detalles.icono }}"></i> {{ sMenu2.detalles.alias }}
+									</a>
+								</li>
+							{% endfor %}
+							</ul>
+							{% endif %}
+						</li>
+					{% endfor %}
+					</ul>
+					{% endif %}
+				</li>
+			{% endfor %}
+
+		</ul>
+
+		
+	</section>
+	<!-- /.sidebar -->
+</aside>

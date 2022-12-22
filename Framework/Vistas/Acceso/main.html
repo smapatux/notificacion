@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ANALogo | Log in</title>
+	<link rel="shortcut icon" href="{{ baseMedia() }}/Generales/img/logo_ico.png" />
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- Bootstrap 3.3.5 -->
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/bootstrap/css/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/css/login_card.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/dist/css/AdminLTE.min.css">
+
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/css/generales.css">
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/css/chunk-bootstrap-4.css">
+
+	<script src="{{ baseMedia() }}/Generales/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<script src="{{ baseMedia() }}/Generales/js/Generales.js"></script>
+	<script src="{{ baseMedia() }}/Generales/js/__sam.ajax.js"></script>
+	<script src="{{ baseMedia() }}/Generales/js/__sam.errores.js"></script>
+</head>
+<body class="hold-transition logo-principal">
+
+	<div class="login-barra">
+		<div class="login-barra-0"></div>
+		<div class="login-barra-1"></div>
+		<div class="login-barra-2"></div>
+	</div>
+
+	<img class="login-logo-leyenda" src="{{ baseMedia() }}/Generales/img/logo_leyenda_completo317x109.png" alt="">
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+			{% block content %} {% endblock %}
+			</div>
+		</div>
+	</div>	
+
+</body>
+</html>

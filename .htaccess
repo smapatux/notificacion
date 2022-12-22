@@ -1,0 +1,20 @@
+# Activar RewriteEngine url amigables
+RewriteEngine on
+
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.+)$ index.php?uri=$1 [QSA,L]
+
+RedirectMatch 404 (?i)^/framework/.*$ 
+RedirectMatch 404 (?i)^/___reportes/.*$ 
+RedirectMatch 404 (?i)^/servicios/.*$ 
+RedirectMatch 404 (?i)^/log_sistema/.*$ 
+RedirectMatch 404 (?i)^/vendor/.*$ 
+RedirectMatch 404 (?i)^/angular/.*$ 
+RedirectMatch 404 (?i)^/(composer\.json|composer.lock|conf\.json)
+
+ErrorDocument 403 /errores/500
+ErrorDocument 404 /errores/404
+ErrorDocument 500 /errores/500

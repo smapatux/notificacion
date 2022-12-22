@@ -1,0 +1,51 @@
+<div class="box-header">
+	<div class="col-md-10 col-xs-5">
+		<span class="box-title"><button class="btn btn-regresar btn-sm" onclick="__js_sam.goBack()" data-toggle="tooltip" title="Regresar una pagina"><i class="fa fa-arrow-left"></i> Regresar</button></span> 
+	</div>
+	<form class="md-form">
+	<div class="col-md-2 col-xs-6 pull-right form-group-sm form-group">
+		<input type="text" name="buscar" id="filtro-modulos" class="form-control" autofocus>
+		<label class="animated-label" for="filtro-modulos"> <i class="fa fa-search"></i> Buscar</label>
+	</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+		$(document).ready(function() {
+			$('#filtro-modulos').keyup(function(event) {
+				var actual = $(this);
+				var txt = actual.val();
+				if (txt == actual.data('old')) return false;
+				
+				var rgx = new RegExp(txt, "i");
+				delay(function(){
+					$.each($(".filtro-sam-modulo").find(".texto-filtro"), function(index, ele)
+					{
+						elemento = $(ele).closest(".filtro-sam-modulo");
+						if ( $(ele).html().search( rgx ) == -1 )
+						{
+							if ($(elemento).css('display') != "none") $(elemento).hide('fast');
+						}
+						else
+						{
+							if ( $(elemento).css('display') == "none") $(elemento).show('fast');
+
+						}
+					});
+					actual.data('old', txt);
+
+			    }, 300 );
+				
+			});
+
+			var delay = (function(){
+			  var timer = 0;
+			  return function(callback, ms){
+			    clearTimeout (timer);
+			    timer = setTimeout(callback, ms);
+			  };
+			})();
+
+		});
+	</script>

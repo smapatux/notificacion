@@ -1,0 +1,9 @@
+# archivos sin seguimiento
+vendor
+log_sistema/
+public/
+conf.json
+servicios/Ws/src
+servicios/Ws/vendor
+servicios/Ws/composer.json
+servicios/Ws/vendor/autoload.php

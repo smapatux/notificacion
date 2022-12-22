@@ -1,0 +1,50 @@
+  <!-- Modal -->
+  <div class="modal fade in" tabindex='-1' id="modalUsuarioBusqueda" role="dialog">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+	  	<form id="frmModal" action="/api/atencion-al-publico/clientes/persona/" method="GET" autocomplete="off">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Agregar/Editar</h4>
+			</div>
+			<div class="modal-body form-group-sm">
+				<div class="marco3">
+					<div class="row">
+						<div class="col-md-4">
+							<input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre Apellidos">
+						</div>
+						<div class="col-md-3">
+							<input class="form-control" type="text" name="curp" id="curp" placeholder="CURP">
+						</div>
+
+						<div class="col-md-3">
+							<input class="form-control" type="text" name="clave_electoral" id="clave_electoral" placeholder="Clave Electoral">
+						</div>
+						<div class="col-md-2">
+							<button class="btn btn-primary btn-xs btn-block" id="modalBuscarCliente">Buscar</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="marco3">
+					<table class="table table-condensed small tabla_general text-center" id="tabla_lista">
+						<thead>
+							<tr>
+								<th>NOMBRE</th>
+								<th>CURP</th>
+								<th>CLAVE ELECTORAL</th>
+								<th width="18%"></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-fw fa-close"></i>Cancelar</button>
+			</div>
+	  	</form>
+	  </div>
+	</div>
+  </div>

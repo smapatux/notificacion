@@ -1,0 +1,130 @@
+<div class="box ">
+	
+	<div class="box-body" id="menuListar">
+		<button class="btn btn-regresar btn-lg" onclick="__js_sam.goBack()" data-toggle="tooltip" title="Regresar una pagina"> <i class="fa fa-arrow-left"></i> Regresar</button>
+
+		<div class="btn-group pull-right" data-toggle="tooltip" title="Exportar" id="btnExportar_menuListar">
+			<button class="btn btn-menuApp dropdown-toggle " data-toggle="dropdown">
+				<i class="fa fa-save"></i>
+			<span class="caret"></span></button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#" onclick="generatePDF();"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
+				<li><a href="#" id="excelExport"><i class="fa fa-file-excel-o"></i> EXCEL</a></li>
+			</ul>
+		</div>
+
+		<a class="btn btn-menuApp  pull-right" id="botonImprimir" data-toggle="tooltip" title="Imprimir">
+			<i class="fa fa-print"></i>
+		</a>
+
+		<a class="btn btn-menuApp  pull-right" id="btnMenuAgregar" data-toggle="tooltip" title="Agregar">
+			<i class="fa fa-plus-square"></i>
+		</a>
+		
+		<a class="btn btn-menuApp  pull-right" id="btnActualizarLista" data-toggle="tooltip" title="Actualizar">
+			<i class="fa fa-refresh"></i>
+		</a>
+	</div>
+</div>
+
+<script src="{{ baseMedia() }}/Generales/plugins/tableexport2/autoTablepdf/libs/jspdf.debug.js"></script>
+<script src="{{ baseMedia() }}/Generales/plugins/tableexport2/autoTablepdf/libs/faker.min.js"></script>
+<script src="{{ baseMedia() }}/Generales/plugins/tableexport2/autoTablepdf/libs/jspdf.plugin.autotable.js"></script>
+<script src="{{ baseMedia() }}/Generales/plugins/table2excel/jquery.table2excel.js"></script>
+<script src="{{ baseMedia() }}/Generales/plugins/PrintArea/jquery.PrintArea.js"></script>
+<script src="{{ baseMedia() }}/Generales/plugins/tableexport2/base64.js"></script>
+<script>
+	function generatePDF() {
+		
+		//var imgData = canvas.toDataURL('/public/Generales/img/logo.jpg')
+		var imagenPrueba;
+		
+		toDataUrl('/public/Generales/img/logo.jpg', function(base64Img) {
+			//console.log(base64Img);
+			// doc.addImage(base64Img, 'JPEG', 15, 40, 180, 180);
+			//alert(base64Img);
+			var doc = new jsPDF('l', 'pt');
+		
+			$tabla = $("#tabla_lista").clone(true, true);
+			$tabla.find('.fltrow').remove();
+			$tabla.find('tr').each(function()
+			{
+				$(this).find('td:last, th:last').remove();
+			});
+			var res = doc.autoTableHtmlToJson($tabla[0]);
+
+			doc.text(120, 40, " {{ UI.tituloSeccion.seccion }} - {{ UI.tituloSeccion.seccionPadre.nombre  }}- {{ 'now'|date('d - m -Y') }}");
+			doc.autoTable(res.columns, res.data, {startY: 60});
+			doc.addImage(base64Img, 'jpeg', 40, 20, 43, 33);
+			doc.save("{{ UI.tituloSeccion.seccion }}.pdf");
+		});
+		
+	}
+
+	function toDataUrl(src, callback, outputFormat) {
+	  var img = new Image();
+	  img.crossOrigin = 'Anonymous';
+	  img.onload = function() {
+	    var canvas = document.createElement('CANVAS');
+	    var ctx = canvas.getContext('2d');
+	    var dataURL;
+	    canvas.height = this.height;
+	    canvas.width = this.width;
+	    ctx.drawImage(this, 0, 0);
+	    dataURL = canvas.toDataURL('image/jpeg');
+	    callback(dataURL);
+	  };
+	  img.src = src;
+	  if (img.complete || img.complete === undefined) {
+	    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    	img.src = src;
+	  }
+	}
+
+	
+
+
+	$(document).ready(function() {
+		$('#excelExport').on('click', function(e){
+			e.preventDefault();
+			ResultsToTable();
+		});
+		
+		function ResultsToTable(){
+			var x = $("#tabla_lista").clone();
+				$(x).find("tbody tr td button").remove();
+				$(x).find("thead tr:last").remove(); 
+			$(x).table2excel({
+				//name: "{{ UI.tituloSeccion.seccion }}",
+				filename: "{{ UI.tituloSeccion.seccion }}"
+			});
+		}
+
+		$("#botonImprimir").click(function (){
+			$("#areaImpresion").printArea({
+				mode       : "popup",
+				standard   : "html5"
+			});
+
+		})
+	});
+
+	$(document).ajaxStart(function() 
+	{ 
+		__js_sam.loadingPanelEspecifico( $('#menuListar'), true);
+
+	});
+	$(document).ajaxComplete(function(event) 
+	{
+		setTimeout(function(){
+			__js_sam.loadingPanelEspecifico( $('#menuListar'), false);
+		}, 200);
+	});
+	$(document).ajaxError(function(event) 
+	{
+		setTimeout(function(){
+			__js_sam.loadingPanelEspecifico( $('#menuListar'), false);
+		}, 200);
+	});
+	
+</script>

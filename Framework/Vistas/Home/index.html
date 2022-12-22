@@ -1,0 +1,43 @@
+{% extends __contenido ? "/__base/contenido-minimo.html" : "/__base/base.html" %}
+
+{% block contenido %}
+<!-- Main content -->
+<section class="content">
+	<div class="contenedor">
+		<div class="row" id="home-panel-welcome">
+			<div class="col-md-6 col-sm-6 col-xs-6">
+				<div class="pull-right home-logo">
+					<img src="{{ baseMedia() }}/Generales/img/logo_leyenda_completo317x109.png">
+				</div>
+			</div>	
+			<div class="col-md-6 col-sm-6 col-xs-6">
+				<h1>BIENVENIDO</h1>
+			</div>
+		</div>
+	</div>
+	<br>
+	<!-- Default box -->
+	<div class="box">
+		<div class="box-header with-border">
+			<br>
+			{% import "__base/Macros/menu-secciones.html" as menus %}
+			{{ menus.bloques( UI.menu ) }}
+		</div>
+
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<p class="pull-right">
+			{{ 'now'|date('d - m -Y') }}
+			</p>
+		</div>
+		<!-- /.box-footer-->
+	</div>
+	<!-- /.box -->
+</section>
+
+{% endblock %}
+
+
+{% block extraScript %}
+
+{% endblock %}

@@ -1,0 +1,217 @@
+{% extends __contenido ? "/__base/contenido-minimo.html" : "/__base/base.html" %}
+
+{% block extraScriptTop %}
+	<script type="text/javascript" language="javascript" src="{{ baseMedia() }}/Generales/js/__sam.tabla-listar.js"></script> 
+	<link rel="stylesheet" href="{{ baseMedia() }}/Generales/css/estilosTablas2.css" />
+	{% include '__base/Librerias/daterangepicker.html' %}
+{% endblock %}
+
+{% block contenido %}
+<style type="text/css">
+	.user-block img {
+    width: 30px !important;
+    height: 30px !important;
+}
+.user-block .username {
+    font-size: 13px;
+    font-weight: 500;
+    float: left;
+    width: 0px;
+    margin-top: 6px;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+</style>
+<div class="box smap_notify">
+	<div class="marco3 form-group">
+		<form id="frm_notifPrincipal" action="/api/notificaciones/listar/" method="get" autocomplete="off" class="form-group-sm">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="input-group baseDeshabilitable">
+						<span class="input-group-addon bg-light-blue-active">
+							<i class="fa fa-calendar"></i> Fecha
+						</span>
+						<span class="input-group-addon">
+							<input type="checkbox" class="checkDeshabilitable">
+						</span>
+						<input type="text" class="form-control range-datepicker campoDeshabilitable" name="fecha" disabled="">
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="input-group">
+						<span class="input-group-addon bg-light-blue-active"><i class="fa fa-commenting"></i> Texto notificación </span>
+						<input type="text" class="form-control" name="notificacion" placeholder="texto a buscar...">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="input-group">
+						<span class="input-group-addon bg-light-blue-active"><i class="fa  fa-th-list"></i> Categoria</span>
+						<select name="categoria" class="form-control notif_categoria">
+							<option value="-1" selected=""> --- SELECCIONE ALGUNA OPCION --- </option>
+							{% for categoria in categorias %}
+								<option value="{{ categoria.id }}" >{{ categoria.nombre }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>	
+				<div class="col-md-6">
+					<div class="input-group">
+						<span class="input-group-addon bg-light-blue-active"><i class="fa fa-th-list"></i> Tipo</span>
+						<select name="tipo" class="form-control notif_tipo">
+							<option value="-1" selected=""> --- SELECCIONE ALGUNA OPCION --- </option>
+							{% for tipo in tipos %}
+								<option value="{{ tipo.id }}" >{{ tipo.nombre }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3 pull-right">
+					<div class="col-md-12">
+						<button class="btn btn-primary btn-block btn-xs" type="submit"><i class="fa fa-search"></i> Buscar</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="marco3 box-body">
+		<div class="row">
+			<div class="col-md-6 col-xs-6">
+				
+			</div>
+		</div>
+		<table class="table table-condensed small tabla_general text-center tablaStyle_1" id="tabla_lista">
+			<thead>
+				<tr>
+					<th class="headTableSalida">FECHA</th>
+					<th class="headTableSalida">EMISOR</th>
+					<th class="headTableSalida">TIPO</th>
+					<th class="headTableSalida">CATEGORIA</th>
+					<th class="headTableSalida">DESCRIPCION</th>
+					<th class="headTableSalida"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr><td colspan="4">Sin resultados a mostrar.</td></tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".smap_notify .notif_tipo").prop("disabled", true );
+
+		$(".smap_notify .notif_categoria").change(function(event) 
+		{
+			let valor = $(this).val();
+
+			__js_sam.procesandoScreen.abrir(100);
+			__js_sam.ajax.peticion
+			(
+				'/api/notificaciones/tipos/',
+				"get",
+				{
+					categoria : valor,
+				},
+				function ( data )
+				{
+					if(valor == -1)
+					{
+						$(".smap_notify .notif_tipo").html(`<option value="-1"> --- SELECCIONE ALGUNA OPCION --- </option>`).prop("disabled", true );
+						__js_sam.procesandoScreen.cerrar(100);
+						return;
+					}
+
+					let cadena = `<option value="-1"> --- SELECCIONE ALGUNA OPCION --- </option>`;
+
+					$.each(data, function(index, el) {
+						cadena+=`<option value="${el.id}">${el.nombre}</option>`
+					});
+
+					$(".smap_notify .notif_tipo").html(cadena).prop("disabled", false );
+					__js_sam.procesandoScreen.cerrar(100);					
+				},
+				$("#frm_notifPrincipal"),
+				$("#frm_notifPrincipal"),
+				function( data )
+				{
+					$(".smap_notify .notif_tipo").prop("disabled", true );
+					__js_sam.procesandoScreen.cerrar(100);
+				}
+			);			
+		}).change();
+
+		///////////////////////////////////////////
+		let tabla_listar = new TablaListar();
+    	tabla_listar.parametrosTr = ["fechaCreacion","--","Tipo.nombre","Categoria.nombre","descripcion",""];
+		tabla_listar.peticion
+		(
+			"/api/notificaciones/listar/", 
+			"GET", 
+			{}, 
+			function(data)
+			{
+				tabla_listar.fillBody(data);
+				__js_sam.aparicionAnimacion(tabla_listar.tabla.find("tbody"));
+			},
+			$("#tabla_lista")
+		);		
+		
+		tabla_listar.evt_nuevaTupla = function($tr)
+		{
+			var datos = $tr.data("datos");
+
+			$tr.find("td:last").html("").append(
+				`<a href='/notificaciones/ver/?view=${datos.hash}' class='btn btn-primary btn-xs'><i class='fa fa-ellipsis-h'></i></a>`
+			);
+
+			$tr.find(":nth-child(2)").html
+			(
+				`<div class="user-block">
+            		<img class="img-circle img-bordered-sm" src='`+( (datos.Emisor.id != null && datos.Emisor.imagen != "") ? datos.Emisor.imagen : `{{ baseMedia() }}/Generales/dist/img/user-default.jpg`) +`' alt="user image">
+                	<span class="username detalleEmp">
+                  		${datos.Emisor.id != null ? datos.Emisor.clave : "Sistema" }
+                	</span>
+          		</div>`
+			);			
+		};
+		//////////////////////////////////////////
+
+		$("#frm_notifPrincipal").submit(function(event) 
+		{
+			$frm = $(this);
+			event.preventDefault();
+
+			__js_sam.procesandoScreen.cerrar();
+			__js_sam.ajax.peticion
+			(
+				$frm.attr('action'),
+				$frm.attr('method'),
+				$frm.serialize(),
+				function( datos )
+				{					
+					tabla_listar.fillBody( datos );
+					__js_sam.aparicionAnimacion(tabla_listar.tabla.find("tbody"));
+					__js_sam.procesandoScreen.cerrar();
+				},
+				$frm,
+				$frm,
+				function()
+				{
+					__js_sam.procesandoScreen.cerrar();
+				}
+			);
+		});
+
+	});
+</script>
+{% endblock %}
+
+{% block extraScript %}	
+	<script>
+		__js_sam.tabStorage.init();
+	</script>
+{% endblock %}

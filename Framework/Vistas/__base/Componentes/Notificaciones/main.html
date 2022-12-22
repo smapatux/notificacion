@@ -1,0 +1,70 @@
+{% include "/__base/Componentes/Notificaciones/bottom-alerts.html" %}
+
+<script type="text/javascript" src="{{ baseMedia() }}/Generales/js/ws-comm/ws-comm.js"></script>
+<script type="text/javascript">
+	let ws_notify = new WsComm(
+			'ws://{{ constant("WS_HOST") }}:{{ constant("WS_PORT") }}/notificaciones',
+			'{{ ws_session }}'
+		);
+
+	$(document).ready(function() {
+
+		{# Muestra nueva notificacion #}
+		ws_notify.on( 'notificacion', datos => {
+			__js_sam.alertas.show(datos.datos);
+			__js_sam.notify_bell.agregar(datos.datos);
+			__js_sam.notify_bell.getRevisado();			
+		});
+
+		ws_notify.on( 'set_no_leidas', datos => {
+			__js_sam.notify_bell.reset();
+			$.each(datos.datos.notificaciones, function(index, el) {
+				__js_sam.notify_bell.agregar(el);
+				
+			});
+
+			__js_sam.notify_bell.getRevisado();
+
+		});
+
+		__js_sam.notify_bell.top.click(( e ) => {
+				ws_notify.conn_visor.send( JSON.stringify({accion:'set_revisado', datos : {}}) );
+				
+			});
+
+		__js_sam.alertas.contenedor.click(( e ) => {
+				ws_notify.conn_visor.send( JSON.stringify({accion:'set_revisado', datos : {}}) );
+				
+			});
+
+		ws_notify.on( 'set_revisado', datos => {
+			if (datos.datos.accion)
+				__js_sam.notify_bell.getRevisado();
+
+		});
+
+		ws_notify.init_connection = () => {
+			ws_notify.conn_visor.send( JSON.stringify({accion:'get_no_leidas', datos : {}}) );
+			
+		}
+
+		__js_sam.notify_bell.getRevisado = () => {
+			ws_notify.conn_visor.send(
+					JSON.stringify({
+						accion:'getEstatusRevisado',
+						datos : {}
+					})
+				);
+		}
+
+		ws_notify.on( 'getEstatusRevisado', datos => {
+			__js_sam.notify_bell.setRevisado( datos.datos.estatus );
+
+		});
+
+
+
+	});
+
+
+</script>

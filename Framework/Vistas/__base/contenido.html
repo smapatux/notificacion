@@ -1,0 +1,38 @@
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+
+{% block breadcrumb %}
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+  </ol>
+{% endblock %}
+    </section>
+    
+{% block contenido %}
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Bienvenido</h3>
+        </div>
+        <div class="box-body">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos cumque repudiandae dolorem. Iusto commodi at, doloribus deleniti quo optio unde suscipit veritatis. Architecto consectetur ut totam soluta, repudiandae aperiam reiciendis.
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <p class="pull-right">
+            {{ 'now'|date('d - m -Y') }}
+          </p>
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+    </section>
+{% endblock %}
+
+  </div>
+  <!-- /.content-wrapper -->

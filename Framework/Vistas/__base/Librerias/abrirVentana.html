@@ -1,0 +1,23 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		abrirVentana = function ( url, opciones )
+		{
+			var opciones = $.type( opciones) == 'undefined' ? {} : opciones;
+			var params = [
+				'directories=' + ( $.type( opciones.directories ) != 'undefined' ? opciones.directories : 'no' ),
+				'titlebar=' + ( $.type( opciones.titlebar ) != 'undefined' ? opciones.titlebar : 'no' ),
+				'toolbar=' + ( $.type( opciones.toolbar ) != 'undefined' ? opciones.toolbar : 'no' ),
+				'location=' + ( $.type( opciones.location ) != 'undefined' ? opciones.location : 'no' ),
+				'status=' + ( $.type( opciones.status ) != 'undefined' ? opciones.status : 'no' ),
+				'menubar=' + ( $.type( opciones.menubar ) != 'undefined' ? opciones.menubar : 'no' ),
+				'scrollbars=' + ( $.type( opciones.scrollbars ) != 'undefined' ? opciones.scrollbars : 'yes' ),
+				'width=' + ( $.type( opciones.width ) != 'undefined' ? opciones.width : screen.width ),
+				'height=' + ( $.type( opciones.height ) != 'undefined' ? opciones.height : screen.height )
+			].join(',');
+			window.open(url,'winname', params).focus();
+		}
+
+	});
+
+</script>

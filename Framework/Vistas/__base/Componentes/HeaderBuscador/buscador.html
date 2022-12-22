@@ -1,0 +1,30 @@
+{% if headerSearch %}
+
+	<style type="text/css">
+		
+		li.dropdown {
+			border-left: 1px solid #eee;
+			border-right-width: 0;
+
+		}
+
+		.header_search:focus {
+			width: 400px;
+		}
+
+	</style>
+
+	<li class="dropdown">
+		<form class="navbar-form navbar-left" role="search" id="searchForm_empleadoDetalle" method="get" action="/api/recursos-humanos/empleados/lista/">
+			<div class="has-feedback">
+				<input type="text" class="form-control input-sm header_search" placeholder="BUSCADOR" name="clave">
+				<span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+		</form>
+
+	</li>
+
+	{{ headerSearch.script | raw }}
+
+
+{% endif %}

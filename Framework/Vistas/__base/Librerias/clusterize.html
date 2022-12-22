@@ -1,0 +1,41 @@
+<link href="{{ baseMedia() }}/Generales/plugins/ClusterizeJs/clusterize.css" rel="stylesheet">
+<script src="{{ baseMedia() }}/Generales/plugins/ClusterizeJs/clusterize.min.js"></script>
+
+<script type="text/javascript">
+	var clusterize_formatElement = function( row )
+	{
+		var strTmp = `<tr class="${ row.Clave != "" && row.Clave != "-" ? "resalteEmpleadoAfiliado" : "" }">`;
+		$.each(row, function(index, r) { strTmp += "<td>" + r + "<td>"; });
+		return strTmp + "</tr>";
+	}
+
+	var clusterize_formatHeader = function( row )
+	{
+		var strTmp = "<tr>";
+		$.each(row, function(i, r) { strTmp += `<th>${ i.toUpperCase() }</th>`; });
+		return strTmp + "</tr>";
+	}
+
+	var fitHeaderColumns = (function() {
+	  var prevWidth = [];
+	  return function() {
+	    var $firstRow = $('{{contenido}}').find('tr:not(.clusterize-extra-row):first');
+	    var columnsWidth = [];
+	    $firstRow.children().each(function() {
+	    	columnsWidth.push($(this).width());
+	    });
+	    if ( columnsWidth.toString() == prevWidth.toString() ) return;
+	    $('{{header}}').find('tr').children().each(function(i) {
+	    	$(this).width(columnsWidth[i]);
+	    });
+	    prevWidth = columnsWidth;
+	  }
+	})();
+
+	/**
+	 * Keep header equal width to tbody
+	 */
+	var setHeaderWidth = function() {
+	  $('{{header}}').width($('{{contenido}}').width());
+	};
+</script>

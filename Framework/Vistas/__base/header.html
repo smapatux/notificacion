@@ -1,0 +1,117 @@
+{% include "/__base/blockscreen.html" %}
+<header class="main-header">
+
+	<!-- Logo -->
+	<a href="/" class="logo">
+		<!-- logo for regular state and mobile devices -->
+		<img src="/public/Generales/img/miniLogo(50x50)_change.png" class="logo-mini" height="50">
+		<img src="/public/Generales/img/miniLogo2(204x50)_change.png" class="logo-lg" height="50">
+		
+	</a>
+
+	<!-- Header Navbar: style can be found in header.less -->
+	<nav class="navbar navbar-static-top" role="navigation">
+		<!-- Sidebar toggle button-->
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+			<span class="sr-only">Toggle navigation</span>
+		</a>
+
+		<style type="text/css">
+			div.nav-info{
+				display: inline;
+				float: left;
+				padding: 15px 15px;
+			}
+
+			div.nav-info h4{
+				display: inline;
+			}
+
+			div.nav-titulo{
+				display: inline;
+				float: left;
+				padding: 15px 15px;
+				border-right: 1px solid #eee;
+			}
+
+
+			div.nav-titulo h4{
+				display: inline;
+			}
+
+			div.nav-titulo h4 span{
+				text-transform: uppercase
+			}
+
+			div.nav-titulo h4 small a{
+				color: #777777;
+			}
+
+		</style>
+
+
+		{% block titulo_contenido %}
+			<div class="nav-titulo">
+				<h4>
+					<span>{{ UI.tituloSeccion.seccion }}</span>
+					<small> <a href="{{ uri_back ? uri_back : UI.tituloSeccion.seccionPadre.uri }}">{{ UI.tituloSeccion.seccionPadre.nombre|upper  }}</a> </small>
+				</h4>
+			</div>
+		{% endblock %}
+
+
+		<div class="nav-info">
+			<h4>
+			{% if navInfo %}
+				{{ navInfo.content }}
+			{% endif %}
+			</h4>
+		</div>
+
+		<!-- Navbar Right Menu -->
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+
+				{% include "/__base/Componentes/HeaderBuscador/buscador.html" %}
+
+				{% include "/__base/Componentes/Notificaciones/top-menu.html" %}
+
+				<!-- User Account: style can be found in dropdown.less -->
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<img src="{{ perfil.imagen ? perfil.imagen : baseMedia() ~ '/Generales/dist/img/user-default(90x90)_change.jpg' }}" class="user-image" alt="User Image">
+						<span class="hidden-xs">{{ perfil.nombreCompleto ? perfil.nombreCompleto|upper : ""}}</span>
+					</a>
+					<ul class="dropdown-menu">
+						<!-- User image -->
+						<li class="user-header">
+							<img src="{{ perfil.imagen ? perfil.imagen : baseMedia() ~ '/Generales/dist/img/user-default(90x90)_change.jpg' }}" class="img-circle" alt="User Image">
+
+							<p>
+								{{ perfil.nombreCompleto ? perfil.nombreCompleto|upper : ""}}
+									<br>
+									{{ perfil.area ? perfil.area : "---" }}
+								<small>
+									{{ perfil.puesto ? perfil.puesto : "Puesto no Asignado" }}
+								</small>
+							</p>
+						</li>
+							<!-- /.row -->
+						</li>
+
+						<!-- Menu Footer-->
+						<li class="user-footer">
+							<div class="pull-left">
+								<a href="/perfil/" class="btn btn-default btn-flat">Perfil</a>
+							</div>
+							<div class="pull-right">
+								<a href="/logout/" class="btn btn-default btn-flat">Salir</a>
+							</div>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+	</nav>
+</header>
